@@ -52,7 +52,9 @@
             this.Controls.Add(this.listView1);
             this.Name = "FormMain";
             this.Text = "FormMain";
+            this.Controls.SetChildIndex(this.listView1, 0);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

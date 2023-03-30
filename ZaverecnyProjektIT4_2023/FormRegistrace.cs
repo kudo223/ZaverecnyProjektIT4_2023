@@ -23,6 +23,7 @@ namespace ZaverecnyProjektIT4_2023
         private void button1_Click(object sender, EventArgs e)
         {
             sqlRepository.CreateUser(nicknameTB.Text, passwordTB.Text);
+            this.Close();
         }
     }
 }
