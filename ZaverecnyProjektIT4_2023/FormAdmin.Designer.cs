@@ -117,6 +117,7 @@
             // columnHeader4
             // 
             this.columnHeader4.Text = "Id";
+            this.columnHeader4.Width = 50;
             // 
             // columnHeader5
             // 
@@ -142,7 +143,7 @@
             // columnHeader10
             // 
             this.columnHeader10.Text = "PhoneNumber";
-            this.columnHeader10.Width = 90;
+            this.columnHeader10.Width = 99;
             // 
             // button3
             // 
@@ -156,13 +157,13 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(713, 12);
+            this.button4.Location = new System.Drawing.Point(615, 285);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 6;
-            this.button4.Text = "refresh";
+            this.button4.Text = "delete";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.button4_Click_1);
             // 
             // FormAdmin
             // 

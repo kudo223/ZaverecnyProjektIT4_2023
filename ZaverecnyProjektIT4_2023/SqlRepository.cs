@@ -148,7 +148,7 @@ namespace ZaverecnyProjektIT4_2023
             }
             return user;
         }
-        public void Delete(string tableName, string columnName, string id)
+        public void DeleteUser(string tableName, string columnName, string id)
         {
             using (SqlConnection sqlConnection = new SqlConnection(cString))
             {
@@ -162,19 +162,18 @@ namespace ZaverecnyProjektIT4_2023
                 sqlConnection.Close();
             }
         }
-        public void Edit(int id, string nickname, string role)
+        public void Edit(User user)
         {
+
             using (SqlConnection sqlConnection = new SqlConnection(cString))
             {
                 sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand())
+                using (SqlCommand sqlCommand = sqlConnection.CreateCommand())
                 {
-                    sqlCommand.Connection = sqlConnection;
-                    sqlCommand.CommandText = "UPDATE User" +
-                        " SET Id=@id, Nickname=@nickname, Role=@role, ";
-                    sqlCommand.Parameters.AddWithValue("@id", id);
-                    sqlCommand.Parameters.AddWithValue("@nickname", nickname);
-                    sqlCommand.Parameters.AddWithValue("@role", role);
+                    sqlCommand.CommandText = "UPDATE [User] SET Nickname=@Nickname, Role=@Role WHERE Id=@Id";
+                    sqlCommand.Parameters.AddWithValue("Nickname", user.Nickname);
+                    sqlCommand.Parameters.AddWithValue("Role", user.Role);
+                    sqlCommand.Parameters.AddWithValue("Id", user.Id);
                     sqlCommand.ExecuteNonQuery();
                 }
                 sqlConnection.Close();
@@ -199,6 +198,20 @@ namespace ZaverecnyProjektIT4_2023
                 sqlConnection.Close();
             }
 
+        }
+        public void DeleteEmployee(string tableName, string columnName, string id)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(cString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand())
+                {
+                    sqlCommand.Connection = sqlConnection;
+                    sqlCommand.CommandText = $"DELETE FROM {tableName} WHERE {columnName}={id}";
+                    sqlCommand.ExecuteNonQuery();
+                }
+                sqlConnection.Close();
+            }
         }
     }
 }

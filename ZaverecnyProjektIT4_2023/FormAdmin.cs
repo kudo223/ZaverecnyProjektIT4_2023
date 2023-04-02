@@ -51,7 +51,7 @@ namespace ZaverecnyProjektIT4_2023
                 selectedValue = columnName.Replace(" ", "");
                 var id = selectedRow.SubItems[0].Text;
 
-                sqlRepository.Delete("[User]", selectedValue, id);
+                sqlRepository.DeleteUser("[User]", selectedValue, id);
                 listView1.SelectedItems[0].Remove();
             }
         }
@@ -63,11 +63,21 @@ namespace ZaverecnyProjektIT4_2023
             {
                 listView2.Items.Add(employee.EmployeeToListViewItem());
             }
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            if(listView1.SelectedItems.Count > 0)
+        {
+                FormEdit formEdit = new FormEdit(users[listView1.SelectedIndices[0]]);
+                formEdit.ShowDialog();
+            }
+        else
+            {
+                MessageBox.Show("vyberte řádek");
+            }
+            LoadUsers();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -75,14 +85,28 @@ namespace ZaverecnyProjektIT4_2023
             FormAdd formAdd = new FormAdd();
             formAdd.Show();
         }
-        private void Refresh(object sender, EventArgs e)
-        {
-            listView2.Update();
-        }
-
         private void button4_Click(object sender, EventArgs e)
         {
-            Refresh();
+            
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            if (listView2.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("vyberte řádek");
+            }
+            else
+            {
+                var selectedRow = listView2.SelectedItems[0];
+                var columnName = listView2.Columns[0].Text;
+                string selectedValue = selectedRow.SubItems[0].Text;
+                selectedValue = columnName.Replace(" ", "");
+                var id = selectedRow.SubItems[0].Text;
+
+                sqlRepository.DeleteEmployee("[Employee]", selectedValue, id);
+                listView2.SelectedItems[0].Remove();
+            }
         }
     }
 }
