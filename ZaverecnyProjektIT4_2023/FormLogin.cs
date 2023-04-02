@@ -12,16 +12,16 @@ namespace ZaverecnyProjektIT4_2023
 {
     public partial class FormLogin : System.Windows.Forms.Form
     {
-        SqlRepository sql;
+        SqlRepository sqlRepository;
         public FormLogin()
         {
             InitializeComponent();
-            sql = new SqlRepository();
+            sqlRepository = new SqlRepository();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var user = sql.GetUser(nicknameTB.Text.Trim());
+            var user = sqlRepository.GetUser(nicknameTB.Text.Trim());
 
             if (user != null)
             {

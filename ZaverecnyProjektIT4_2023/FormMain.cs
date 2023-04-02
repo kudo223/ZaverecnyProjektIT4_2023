@@ -13,24 +13,35 @@ namespace ZaverecnyProjektIT4_2023
     public partial class FormMain : Form
     {
         private List<User> users;
-        SqlRepository sql;
+        private List<Employee> employees;
+        SqlRepository sqlRepository;
         public FormMain()
         {
             InitializeComponent();
-            sql = new SqlRepository();
+            sqlRepository = new SqlRepository();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
         {
             LoadUsers();
+            LoadEmployees();
         }
         private void LoadUsers()
         {
-            users = sql.GetUsers();
+            users = sqlRepository.GetUsers();
             listView1.Items.Clear();
             foreach (var user in users)
             {
-                listView1.Items.Add(user.ToListViewItem());
+                listView1.Items.Add(user.UserToListViewItem());
+            }
+        }
+        private void LoadEmployees()
+        {
+            employees = sqlRepository.GetEmployees();
+            listView2.Items.Clear();
+            foreach (var employee in employees)
+            {
+                listView2.Items.Add(employee.EmployeeToListViewItem());
             }
         }
     }

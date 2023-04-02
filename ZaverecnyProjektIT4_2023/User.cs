@@ -27,7 +27,7 @@ namespace ZaverecnyProjektIT4_2023
             PasswordSalt = passwordSalt;
             Role = role;
         }
-        public ListViewItem ToListViewItem()
+        public ListViewItem UserToListViewItem()
         {
             return new ListViewItem(new string[] { Id.ToString(), Nickname, Role });
         }

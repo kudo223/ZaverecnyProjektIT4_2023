@@ -24,15 +24,15 @@ namespace ZaverecnyProjektIT4_2023
                 using (SqlCommand sqlCommand = sqlConnection.CreateCommand())
                 {
                     sqlCommand.CommandText = "SELECT * FROM [User]";
-                    using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                    using (SqlDataReader sqlDataReader = sqlCommand.ExecuteReader())
                     {
-                        while (reader.Read())
+                        while (sqlDataReader.Read())
                         {
-                            var user = new User((int)reader["Id"]
-                                             , reader["Nickname"].ToString()
-                                             , (byte[])reader["PasswordHash"]
-                                             , (byte[])reader["PasswordSalt"]
-                                             , reader["Role"].ToString()
+                            var user = new User((int)sqlDataReader["Id"]
+                                             , sqlDataReader["Nickname"].ToString()
+                                             , (byte[])sqlDataReader["PasswordHash"]
+                                             , (byte[])sqlDataReader["PasswordSalt"]
+                                             , sqlDataReader["Role"].ToString()
                                              );
                             users.Add(user);
                         }
@@ -41,6 +41,38 @@ namespace ZaverecnyProjektIT4_2023
                 sqlConnection.Close();
             }
             return users;
+        }
+        public List<Employee> GetEmployees()
+        {
+
+            List<Employee> employees= new List<Employee>();
+
+
+            using (SqlConnection sqlConnection = new SqlConnection(cString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = sqlConnection.CreateCommand())
+                {
+                    sqlCommand.CommandText = "SELECT * FROM [Employee]";
+                    using (SqlDataReader sqlDataReader = sqlCommand.ExecuteReader())
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            var employee = new Employee((int)sqlDataReader["Id"]
+                                             , (int)sqlDataReader["PersonalNumber"]
+                                             , sqlDataReader["Firstname"].ToString()
+                                             , sqlDataReader["Lastname"].ToString()
+                                             , Convert.ToDateTime(sqlDataReader["BirthDate"])
+                                             , sqlDataReader["Email"].ToString()
+                                             , sqlDataReader["PhoneNumber"].ToString()
+                                             );
+                            employees.Add(employee);
+                        }
+                    }
+                }
+                sqlConnection.Close();
+            }
+            return employees;
         }
         public void CreateUser(string nickname, string password)
         {
@@ -77,15 +109,15 @@ namespace ZaverecnyProjektIT4_2023
                 {
                     sqlCommand.CommandText = "SELECT * FROM User WHERE Nickname LIKE @Search";
                     sqlCommand.Parameters.AddWithValue("Search", "%" + searchString + "%");
-                    using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                    using (SqlDataReader sqlDataReader = sqlCommand.ExecuteReader())
                     {
-                        while (reader.Read())
+                        while (sqlDataReader.Read())
                         {
-                            var user = new User((int)reader["Id"]
-                                             , reader["Username"].ToString()
-                                             , (byte[])reader["PasswordHash"]
-                                             , (byte[])reader["PasswordSalt"]
-                                             , reader["Role"].ToString());
+                            var user = new User((int)sqlDataReader["Id"]
+                                             , sqlDataReader["Username"].ToString()
+                                             , (byte[])sqlDataReader["PasswordHash"]
+                                             , (byte[])sqlDataReader["PasswordSalt"]
+                                             , sqlDataReader["Role"].ToString());
                             users.Add(user);
                         }
                     }
@@ -104,17 +136,49 @@ namespace ZaverecnyProjektIT4_2023
                 {
                     sqlCommand.CommandText = "select * from [User] where Nickname=@Nickname";
                     sqlCommand.Parameters.AddWithValue("Nickname", nickname);
-                    using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                    using (SqlDataReader sqlDataReader = sqlCommand.ExecuteReader())
                     {
-                        if (reader.Read())
+                        if (sqlDataReader.Read())
                         {
-                            user = new User((int)reader["Id"],reader["Nickname"].ToString(), (byte[])reader["PasswordHash"], (byte[])reader["PasswordSalt"], reader["Role"].ToString());
+                            user = new User((int)sqlDataReader["Id"], sqlDataReader["Nickname"].ToString(), (byte[])sqlDataReader["PasswordHash"], (byte[])sqlDataReader["PasswordSalt"], sqlDataReader["Role"].ToString());
                         }
                     }
                 }
                 sqlConnection.Close();
             }
             return user;
+        }
+        public void Delete(string tableName, string columnName, string id)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(cString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand())
+                {
+                    sqlCommand.Connection = sqlConnection;
+                    sqlCommand.CommandText = $"DELETE FROM {tableName} WHERE {columnName}={id}";
+                    sqlCommand.ExecuteNonQuery();
+                }
+                sqlConnection.Close();
+            }
+        }
+        public void Edit(int id, string nickname, string role)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(cString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand())
+                {
+                    sqlCommand.Connection = sqlConnection;
+                    sqlCommand.CommandText = "UPDATE User" +
+                        " SET Id=@id, Nickname=@nickname, Role=@role, ";
+                    sqlCommand.Parameters.AddWithValue("@id", id);
+                    sqlCommand.Parameters.AddWithValue("@nickname", nickname);
+                    sqlCommand.Parameters.AddWithValue("@role", role);
+                    sqlCommand.ExecuteNonQuery();
+                }
+                sqlConnection.Close();
+            }
         }
     }
 }
