@@ -13,6 +13,7 @@ namespace ZaverecnyProjektIT4_2023
     public partial class FormAdmin : Form
     {
         private List<User> users;
+        private List<Employee> employees;
         SqlRepository sqlRepository;
         
         public FormAdmin()
@@ -24,6 +25,7 @@ namespace ZaverecnyProjektIT4_2023
         private void FormAdmin_Load(object sender, EventArgs e)
         {
             LoadUsers();
+            LoadEmployees();
         }
         private void LoadUsers()
         {
@@ -53,10 +55,34 @@ namespace ZaverecnyProjektIT4_2023
                 listView1.SelectedItems[0].Remove();
             }
         }
+        private void LoadEmployees()
+        {
+            employees = sqlRepository.GetEmployees();
+            listView2.Items.Clear();
+            foreach (var employee in employees)
+            {
+                listView2.Items.Add(employee.EmployeeToListViewItem());
+            }
+        }
 
         private void button2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            FormAdd formAdd = new FormAdd();
+            formAdd.Show();
+        }
+        private void Refresh(object sender, EventArgs e)
+        {
+            listView2.Update();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Refresh();
         }
     }
 }

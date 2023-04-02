@@ -180,5 +180,25 @@ namespace ZaverecnyProjektIT4_2023
                 sqlConnection.Close();
             }
         }
+        public void Add(int personalNumber, string firstname, string lastname, DateTime birthDate, string email, string phoneNumber)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(cString))
+            {
+                sqlConnection.Open();
+                    string query = "INSERT INTO Employee (PersonalNumber, FirstName, LastName, BirthDate, Email, PhoneNumber) VALUES (@value1, @value2, @value3, @value4, @value5, @value6)";
+                    using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                    {
+                        sqlCommand.Parameters.AddWithValue("@value1", personalNumber);
+                        sqlCommand.Parameters.AddWithValue("@value2", firstname);
+                        sqlCommand.Parameters.AddWithValue("@value3", lastname);
+                        sqlCommand.Parameters.AddWithValue("@value4", birthDate);
+                        sqlCommand.Parameters.AddWithValue("@value5", email);
+                        sqlCommand.Parameters.AddWithValue("@value6", phoneNumber);
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                sqlConnection.Close();
+            }
+
+        }
     }
 }

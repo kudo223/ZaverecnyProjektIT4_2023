@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace ZaverecnyProjektIT4_2023
 {
-    class Employee
+    public class Employee
     {
         public int Id { get; }
         public int PersonalNumber { get; set; }
