@@ -21,10 +21,10 @@ namespace ZaverecnyProjektIT4_2023
             using (SqlConnection sqlConnection = new SqlConnection(cString))
             {
                 sqlConnection.Open();
-                using (SqlCommand cmd = sqlConnection.CreateCommand())
+                using (SqlCommand sqlCommand = sqlConnection.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT * FROM [User]";
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    sqlCommand.CommandText = "SELECT * FROM [User]";
+                    using (SqlDataReader reader = sqlCommand.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -55,13 +55,13 @@ namespace ZaverecnyProjektIT4_2023
             using (SqlConnection sqlConnection = new SqlConnection(cString))
             {
                 sqlConnection.Open();
-                using (SqlCommand cmd = sqlConnection.CreateCommand())
+                using (SqlCommand sqlCommand = sqlConnection.CreateCommand())
                 {
-                    cmd.CommandText = "INSERT INTO [User] (Nickname, PasswordHash, PasswordSalt) VALUES (@nickname, @hash, @salt)";
-                    cmd.Parameters.AddWithValue("nickname", nickname);
-                    cmd.Parameters.AddWithValue("hash", hash);
-                    cmd.Parameters.AddWithValue("salt", salt);
-                    cmd.ExecuteNonQuery();
+                    sqlCommand.CommandText = "INSERT INTO [User] (Nickname, PasswordHash, PasswordSalt) VALUES (@nickname, @hash, @salt)";
+                    sqlCommand.Parameters.AddWithValue("nickname", nickname);
+                    sqlCommand.Parameters.AddWithValue("hash", hash);
+                    sqlCommand.Parameters.AddWithValue("salt", salt);
+                    sqlCommand.ExecuteNonQuery();
                 }
                 sqlConnection.Close();
             }
@@ -73,11 +73,11 @@ namespace ZaverecnyProjektIT4_2023
             using (SqlConnection sqlConnection = new SqlConnection(cString))
             {
                 sqlConnection.Open();
-                using (SqlCommand cmd = sqlConnection.CreateCommand())
+                using (SqlCommand sqlCommand = sqlConnection.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT * FROM User WHERE Nickname LIKE @Search";
-                    cmd.Parameters.AddWithValue("Search", "%" + searchString + "%");
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    sqlCommand.CommandText = "SELECT * FROM User WHERE Nickname LIKE @Search";
+                    sqlCommand.Parameters.AddWithValue("Search", "%" + searchString + "%");
+                    using (SqlDataReader reader = sqlCommand.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -100,11 +100,11 @@ namespace ZaverecnyProjektIT4_2023
             using (SqlConnection sqlConnection = new SqlConnection(cString))
             {
                 sqlConnection.Open();
-                using (SqlCommand cmd = sqlConnection.CreateCommand())
+                using (SqlCommand sqlCommand = sqlConnection.CreateCommand())
                 {
-                    cmd.CommandText = "select * from [User] where Nickname=@Nickname";
-                    cmd.Parameters.AddWithValue("Nickname", nickname);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    sqlCommand.CommandText = "select * from [User] where Nickname=@Nickname";
+                    sqlCommand.Parameters.AddWithValue("Nickname", nickname);
+                    using (SqlDataReader reader = sqlCommand.ExecuteReader())
                     {
                         if (reader.Read())
                         {
