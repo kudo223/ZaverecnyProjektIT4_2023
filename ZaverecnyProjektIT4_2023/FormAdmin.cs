@@ -10,17 +10,18 @@ using System.Windows.Forms;
 
 namespace ZaverecnyProjektIT4_2023
 {
-    public partial class FormMain : Form
+    public partial class FormAdmin : Form
     {
         private List<User> users;
         SqlRepository sql;
-        public FormMain()
+        
+        public FormAdmin()
         {
             InitializeComponent();
             sql = new SqlRepository();
         }
 
-        private void FormMain_Load(object sender, EventArgs e)
+        private void FormAdmin_Load(object sender, EventArgs e)
         {
             LoadUsers();
         }
